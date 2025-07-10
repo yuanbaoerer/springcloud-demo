@@ -2,7 +2,6 @@ package org.example.order.controller;
 
 import org.example.order.bean.Order;
 import org.example.order.service.OrderService;
-import org.example.order.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
