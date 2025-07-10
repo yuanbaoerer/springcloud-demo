@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order createOrder(Long userId, Long productId) {
-        Product product = getProductFromRemoteWithLoadBalance(productId);
+        Product product = getProductFromRemoteWithLoadBalanceAnnotation(productId);
         Order order = new Order();
         order.setId(1L);
         // 总金额
@@ -40,6 +40,15 @@ public class OrderServiceImpl implements OrderService {
         order.setProductList(Arrays.asList(product));
 
         return order;
+    }
+
+    // 阶段3：基于注解的负载均衡
+    private Product getProductFromRemoteWithLoadBalanceAnnotation(Long productId) {
+
+        // 给远程发送请求，service-product 会被动态替换
+        String url = "http://service-product/product/"+productId;
+        Product product = restTemplate.getForObject(url, Product.class);
+        return product;
     }
 
     // 目前的发送请求只针对一个机器发送请求，只有当这个机器宕机了，才会换机器发送请求，未实现负载均衡
@@ -54,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         Product product = restTemplate.getForObject(url, Product.class);
         return product;
     }
-    // 完成负载均衡发送请求
+    //阶段2：完成负载均衡发送请求
     private Product getProductFromRemoteWithLoadBalance(Long productId) {
         // 1、获取到商品服务所在的所有机器IP+port
 //        List<ServiceInstance> instances = discoveryClient.getInstances("service-product");
