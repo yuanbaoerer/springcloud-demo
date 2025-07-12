@@ -1,0 +1,49 @@
+server:
+  port: 8000
+spring:
+  profiles:
+#   指定要激活的namespace
+    active: prod
+    include: feign # 引入application-feign.yml的配置
+  application:
+    name: service-order
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        import-check:
+          enabled: false
+        #       动态配置命名空间
+        namespace: ${spring.profiles.active:public}
+
+logging:
+  level:
+    org/example/order/feign: debug # 指定包下的日志级别
+
+
+---
+spring:
+  config:
+    import:
+#      导入指定分组的配置
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order
+    activate:
+      on-profile: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import:
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+    import:
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order

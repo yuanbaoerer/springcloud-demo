@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    openfeign:
+      client:
+        config: # 可以查看源码，看参数
+          # 可以根据微服务对象指定不同的配置
+          default:
+            logger-level: full
+            connect-timeout: 1000
+            read-timeout: 2000
+          # 精确设置，指定service-product的配置
+          service-product:
+            logger-level: full
+            connect-timeout: 3000 # 毫秒
+            read-timeout: 5000
