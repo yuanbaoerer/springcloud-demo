@@ -18,11 +18,11 @@ public class ProductServiceImpl implements ProductService {
         product.setNum(2);
 
         // 测试指定休眠100秒，测试Feign的超时等待，默认是等待60秒
-        try {
-            TimeUnit.SECONDS.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            TimeUnit.SECONDS.sleep(100);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
 
         return product;
