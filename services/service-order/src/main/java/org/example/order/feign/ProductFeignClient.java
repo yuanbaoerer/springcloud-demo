@@ -1,11 +1,13 @@
 package org.example.order.feign;
 
+import org.example.order.feign.fallback.ProductFeignClientFallback;
 import org.example.product.bean.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "service-product")
+// fallback 指定远程调用失败后，用什么兜底
+@FeignClient(value = "service-product", fallback = ProductFeignClientFallback.class)
 public interface ProductFeignClient {
 
     //mvc注解的两套使用逻辑

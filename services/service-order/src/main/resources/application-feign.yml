@@ -13,3 +13,10 @@ spring:
             logger-level: full
             connect-timeout: 3000 # 毫秒
             read-timeout: 5000
+#            request-interceptors:
+#              - org/example/order/interceptor/XTokenRequestInterceptor.java
+#            retryer: feign.retryer.Default
+
+feign:
+  sentinel:
+    enabled: true # 启动远程熔断功能
