@@ -13,4 +13,13 @@ public interface ProductFeignClient {
     //2、标注在FeignClient上，是发送这样的请求
     @GetMapping("product/{id}")
     Product getProductById(@PathVariable("id") Long id);
-}
+
+    /**
+     * 获取商品信息
+     * @param productId
+     * @return
+     */
+    @GetMapping("/product/{id}")
+    Product getProduct(@PathVariable("id") Long productId);
+
+    }

@@ -1,5 +1,6 @@
 package org.example.order.config;
 
+import feign.Logger;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +8,11 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class OrderConfig {
+
+    @Bean
+    Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
+    }
 
     /**
      * 给远程发送请求使用，线程安全的，全局只有一个即可
