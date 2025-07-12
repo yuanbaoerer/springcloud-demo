@@ -1,6 +1,7 @@
 package org.example.order.service.impl;
 
 import org.example.order.bean.Order;
+import org.example.order.feign.ProductFeignClient;
 import org.example.order.service.OrderService;
 import org.example.product.bean.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,16 @@ public class OrderServiceImpl implements OrderService {
     LoadBalancerClient loadBalancerClient;
 
     @Autowired
-    RestTemplate restTemplate;
+    RestTemplate restTemplate; // @LoadBalanced
+
+    @Autowired
+    ProductFeignClient productFeignClient;
 
     @Override
     public Order createOrder(Long userId, Long productId) {
-        Product product = getProductFromRemoteWithLoadBalanceAnnotation(productId);
+//        Product product = getProductFromRemoteWithLoadBalanceAnnotation(productId);
+        // 使用Feign完成远程调用
+        Product product = productFeignClient.getProductById(productId);
         Order order = new Order();
         order.setId(1L);
         // 总金额
