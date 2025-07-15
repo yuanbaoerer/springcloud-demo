@@ -13,6 +13,12 @@ spring:
             logger-level: full
             connect-timeout: 3000 # 毫秒
             read-timeout: 5000
+#    指定sentinel dashboard
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+#     sentinel默认是懒加载机制，设置eager: true，可以让sentinel在启动时就加载规则，而不是第一次访问请求
+      eager: true
 #            request-interceptors:
 #              - org/example/order/interceptor/XTokenRequestInterceptor.java
 #            retryer: feign.retryer.Default
