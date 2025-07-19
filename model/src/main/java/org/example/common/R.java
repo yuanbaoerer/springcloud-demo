@@ -2,6 +2,9 @@ package org.example.common;
 
 import lombok.Data;
 
+/**
+ * 自定义统一响应结果类
+ */
 @Data
 public class R {
     private Integer code;

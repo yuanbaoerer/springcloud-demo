@@ -28,6 +28,5 @@ public class MyBlockExceptionHandler implements BlockExceptionHandler {
 
         writer.flush();
         writer.close();
-
     }
 }
