@@ -1,6 +1,7 @@
 package org.example.order.service.impl;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import org.example.order.bean.Order;
 import org.example.order.feign.ProductFeignClient;
 import org.example.order.service.OrderService;
@@ -31,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ProductFeignClient productFeignClient;
 
-    @SentinelResource(value = "createOrder") // 定义sentinel资源
+    @SentinelResource(value = "createOrder", blockHandler = "createOrderHandler") // 定义sentinel资源，如果没有指定resource的异常处理，则会进入SpringBoot的默认异常处理
     @Override
     public Order createOrder(Long userId, Long productId) {
 //        Product product = getProductFromRemoteWithLoadBalanceAnnotation(productId);
@@ -50,7 +51,20 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-    // 阶段3：基于注解的负载均衡
+    // sentinelResource异常处理 兜底回调，需要与@SentinelResource参数一致
+    public Order createOrderHandler(Long userId, Long productId, BlockException e) {
+        Order order = new Order();
+        order.setId(0L);
+        order.setTotalAmount(new BigDecimal("0"));
+        order.setUserId(userId);
+        order.setNickName("未知用户");
+        order.setAddress("异常信息: " + e.getClass());
+
+        return order;
+    }
+
+
+        // 阶段3：基于注解的负载均衡
     private Product getProductFromRemoteWithLoadBalanceAnnotation(Long productId) {
 
         // 给远程发送请求，service-product 会被动态替换
