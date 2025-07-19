@@ -19,6 +19,7 @@ spring:
         dashboard: localhost:8080
 #     sentinel默认是懒加载机制，设置eager: true，可以让sentinel在启动时就加载规则，而不是第一次访问请求
       eager: true
+      web-context-unify: false # 设置要不要分割请求链路，默认true不分割
 #            request-interceptors:
 #              - org/example/order/interceptor/XTokenRequestInterceptor.java
 #            retryer: feign.retryer.Default

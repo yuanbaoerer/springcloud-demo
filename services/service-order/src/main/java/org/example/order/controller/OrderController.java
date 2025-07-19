@@ -1,5 +1,6 @@
 package org.example.order.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.order.bean.Order;
 import org.example.order.properties.OrderProperties;
 import org.example.order.service.OrderService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 public class OrderController {
 
@@ -31,5 +33,24 @@ public class OrderController {
                              @RequestParam("productId") Long productId) {
         Order order = orderService.createOrder(userId, productId);
         return order;
+    }
+
+    @GetMapping("/seckill")
+    public Order seckill(@RequestParam("userId") Long userId,
+                             @RequestParam("productId") Long productId) {
+        Order order = orderService.createOrder(userId, productId);
+        order.setId(Long.MAX_VALUE);
+        order.setNickName("秒杀用户");
+        return order;
+    }
+
+    @GetMapping("/writeDb")
+    public String writeDb(){
+        return "writeDb successsss...";
+    }
+    @GetMapping("/readDb")
+    public String readDb(){
+        log.info("readDb...");
+        return "readDb successsss...";
     }
 }

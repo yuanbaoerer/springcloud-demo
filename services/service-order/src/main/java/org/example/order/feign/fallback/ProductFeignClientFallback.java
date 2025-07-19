@@ -16,7 +16,7 @@ public class ProductFeignClientFallback implements ProductFeignClient {
         Product product = new Product();
         product.setId(0L);
         product.setPrice(new BigDecimal("0"));
-        product.setProductName("");
+        product.setProductName("未知商品");
         product.setNum(0);
 
         return product;
