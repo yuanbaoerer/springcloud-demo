@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class ProductFeignClientFallback implements ProductFeignClient {
     @Override
     public Product getProductById(Long id) {
-        System.out.println("ProductFeignClientFallback ....");
+        System.out.println("兜底回调 ....");
         Product product = new Product();
         product.setId(0L);
         product.setPrice(new BigDecimal("0"));
