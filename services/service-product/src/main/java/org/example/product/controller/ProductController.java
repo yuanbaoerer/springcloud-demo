@@ -26,7 +26,7 @@ public class ProductController {
         System.out.println("hello ..... token="+header);
         // 获取商品信息
         Product product = productService.getProductById(productId);
-        int i = 10 / 0;
+//        int i = 10 / 0;
 //        try {
 //            TimeUnit.SECONDS.sleep(2);
 //        } catch (InterruptedException e) {

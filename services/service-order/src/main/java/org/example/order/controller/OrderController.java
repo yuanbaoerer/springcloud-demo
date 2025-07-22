@@ -1,5 +1,7 @@
 package org.example.order.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.order.bean.Order;
 import org.example.order.properties.OrderProperties;
@@ -36,11 +38,23 @@ public class OrderController {
     }
 
     @GetMapping("/seckill")
+    @SentinelResource(value = "seckill", fallback = "seckillFallback")
     public Order seckill(@RequestParam("userId") Long userId,
                              @RequestParam("productId") Long productId) {
         Order order = orderService.createOrder(userId, productId);
         order.setId(Long.MAX_VALUE);
         order.setNickName("秒杀用户");
+        return order;
+    }
+
+    public Order seckillFallback(Long userId,
+                                 Long productId, BlockException exception) {
+        System.out.println("seckillFallback....兜底回调");
+        Order order = new Order();
+        order.setId(productId);
+        order.setUserId(userId);
+        order.setAddress("异常信息："+exception.getClass());
+
         return order;
     }
 
