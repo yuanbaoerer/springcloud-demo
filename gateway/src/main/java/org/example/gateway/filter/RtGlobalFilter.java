@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Rt 是 响应时间（Response Time）
- * 全局 filter
+ * 全局 filter 例子
  */
 @Component
 @Slf4j
