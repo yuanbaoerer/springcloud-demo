@@ -27,9 +27,17 @@ spring:
               args:
                 patterns: /api/order/**
                 matchTrailingSlash: true
+#          路径重写，不用在每个controller都写前缀路径
+          filters: # 将/api/order/ab/c 重写为 /ab/c
+            - RewritePath=/api/order/?(?<segment>.*), /$\{segment}
+#            - AddResponseHeader=X-Response-Abc, 123 # 添加指定的响应头
         - id: product-route
           uri: lb://service-product  # lb意思是负载均衡，需要先引入loadbalancer模块
           predicates:
             - Path=/api/product/**
+          filters:
+            - RewritePath=/api/product/?(?<segment>.*), /$\{segment}
+      default-filters:
+        - AddResponseHeader=X-Response-Abc, 123
 
 
