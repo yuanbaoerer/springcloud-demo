@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    include: route
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+# 80 端口是HTTP 协议的默认端口。当你在浏览器中输入网址（如http://example.com）
+# 而不指定端口时，浏览器会自动使用 80 端口与服务器建立连接。
+server:
+  port: 80 # 80端口可以不写端口号，HTTP协议的默认端口

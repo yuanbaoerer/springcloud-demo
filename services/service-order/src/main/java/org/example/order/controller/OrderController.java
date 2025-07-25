@@ -7,12 +7,12 @@ import org.example.order.bean.Order;
 import org.example.order.properties.OrderProperties;
 import org.example.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequestMapping("/api/order")
 @Slf4j
 @RestController
 public class OrderController {
@@ -31,14 +31,14 @@ public class OrderController {
     }
 
     @GetMapping("/create")
-    public Order createOrder(@RequestParam("userId") Long userId,
-                             @RequestParam("productId") Long productId) {
+    public Order createOrder(@RequestParam(value = "userId", required = false) Long userId,
+                             @RequestParam(value = "productId", defaultValue = "1000") Long productId) {
         Order order = orderService.createOrder(userId, productId);
         return order;
     }
 
     @GetMapping("/seckill")
-    @SentinelResource(value = "seckill", fallback = "seckillFallback")
+    @SentinelResource(value = "seckill-order", fallback = "seckillFallback")
     public Order seckill(@RequestParam("userId") Long userId,
                              @RequestParam("productId") Long productId) {
         Order order = orderService.createOrder(userId, productId);
@@ -47,8 +47,10 @@ public class OrderController {
         return order;
     }
 
+    // 使用fallback处理异常，一定要用 Throwable exception
     public Order seckillFallback(Long userId,
-                                 Long productId, BlockException exception) {
+                                 Long productId,
+                                 Throwable exception) {
         System.out.println("seckillFallback....兜底回调");
         Order order = new Order();
         order.setId(productId);

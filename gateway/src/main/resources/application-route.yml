@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: order-route
+          uri: lb://service-order
+#         断言
+          predicates:
+            - Path=/api/order/**
+        - id: product-route
+          uri: lb://service-product  # lb意思是负载均衡，需要先引入loadbalancer模块
+          predicates:
+            - Path=/api/product/**
+        - id: bing-route
+          uri: https://cn.bing.com/
+          predicates:
+            Path=/**
+          order: 10
+
